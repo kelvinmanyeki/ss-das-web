@@ -2,60 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SS-DAS Dashboard</title>
+    <title>SS-DAS | Secure Sensor Data</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
-
 <body>
 
-    <div id="app">
+<div class="app-shell">
+    <header class="app-header">
+        <div class="logo">SS-DAS</div>
+        <div class="header-right">
+            <span id="user-label" class="user-label hidden"></span>
+            <button id="logout-btn" class="btn secondary hidden">Logout</button>
+        </div>
+    </header>
+
+    <main class="app-main">
 
         <!-- Login View -->
-        <div id="login-view" class="view hidden">
-            <h2>SS-DAS Login</h2>
-            <input id="username" placeholder="Username">
-            <input id="password" type="password" placeholder="Password">
-            <button id="login-btn">Login</button>
-        </div>
+        <section id="login-view" class="view card hidden">
+            <h2>Welcome to SS-DAS</h2>
+            <p class="subtitle">Secure Sensor Data Authentication System</p>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" placeholder="Enter username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="Enter password">
+            </div>
+
+            <button id="login-btn" class="btn primary full-width">Login</button>
+            <p id="login-error" class="error-msg hidden"></p>
+        </section>
 
         <!-- Dashboard View -->
-        <div id="dashboard-view" class="view hidden">
-            <h2>SS-DAS Dashboard</h2>
-            <button id="logout-btn">Logout</button>
+        <section id="dashboard-view" class="view hidden">
+            <h2>Sensor Dashboard</h2>
+            <p class="subtitle">Encrypted sensor data — decrypted only on your trusted device.</p>
 
-            <table id="sensor-table">
-                <thead>
-                    <tr>
-                        <th>Sensor ID</th>
-                        <th>Type</th>
-                        <th>Device</th>
-                        <th>Ciphertext</th>
-                        <th>Timestamp</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+            <div class="card">
+                <table id="sensor-table">
+                    <thead>
+                        <tr>
+                            <th>Sensor ID</th>
+                            <th>Type</th>
+                            <th>Device</th>
+                            <th>Ciphertext</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <p id="no-sensors" class="muted hidden">No sensor data available yet.</p>
+            </div>
+        </section>
 
         <!-- Sensor Detail View -->
-        <div id="sensor-detail-view" class="view hidden">
+        <section id="sensor-detail-view" class="view card hidden">
             <h2>Sensor Details</h2>
-            <pre id="sensor-json"></pre>
-            <button id="decrypt-btn">Decrypt</button>
-            <pre id="plaintext-output"></pre>
-            <button id="back-btn">Back</button>
-        </div>
+            <p class="subtitle">Raw encrypted payload as seen by the cloud.</p>
 
-    </div>
+            <pre id="sensor-json" class="code-block"></pre>
 
-    <script src="api.js"></script>
-    <script src="crypto.js"></script>
-    <script src="webauthn.js"></script>
-    <script src="ui/login.js"></script>
-    <script src="ui/dashboard.js"></script>
-    <script src="ui/sensor_view.js"></script>
-    <script src="app.js"></script>
+            <button id="decrypt-btn" class="btn primary">Decrypt on this device</button>
+            <pre id="plaintext-output" class="code-block"></pre>
+
+            <button id="back-btn" class="btn secondary">Back to dashboard</button>
+        </section>
+
+    </main>
+</div>
+
+<script src="api.js"></script>
+<script src="crypto.js"></script>
+<script src="webauthn.js"></script>
+<script src="ui/login.js"></script>
+<script src="ui/dashboard.js"></script>
+<script src="ui/sensor_view.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
