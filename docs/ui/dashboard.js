@@ -1,25 +1,29 @@
-async function showDashboard() {
-    hideAllViews();
-    document.getElementById("dashboard-view").classList.remove("hidden");
+async function loadDashboard() {
+  const sensors = await apiGet("/sensors");
+  const data = await apiGet("/data/sensors");
 
-    const sensors = await apiGet("/sensors");
-    const data = await apiGet("/data/sensors");
+  const tbody = document.querySelector("#sensor-table tbody");
+  tbody.innerHTML = "";
 
-    const tbody = document.querySelector("#sensor-table tbody");
-    tbody.innerHTML = "";
+  if (!data || data.length === 0) {
+    document.getElementById("no-sensors").classList.remove("hidden");
+    return;
+  }
 
-    data.forEach(reading => {
-        const row = document.createElement("tr");
+  document.getElementById("no-sensors").classList.add("hidden");
 
-        row.innerHTML = `
-            <td>${reading.sensor_id}</td>
-            <td>${reading.sensor_type}</td>
-            <td>${reading.device_id}</td>
-            <td>${reading.ciphertext.substring(0, 12)}...</td>
-            <td>${new Date(reading.timestamp * 1000).toLocaleString()}</td>
-            <td><button onclick="viewSensor('${reading.sensor_id}')">View</button></td>
-        `;
+  data.forEach(r => {
+    const row = document.createElement("tr");
 
-        tbody.appendChild(row);
-    });
+    row.innerHTML = `
+      <td>${r.sensor_id}</td>
+      <td>${r.sensor_type}</td>
+      <td>${r.device_id}</td>
+      <td>${r.ciphertext.substring(0, 12)}...</td>
+      <td>${new Date(r.timestamp * 1000).toLocaleString()}</td>
+      <td><button onclick="viewSensor('${r.sensor_id}')">View</button></td>
+    `;
+
+    tbody.appendChild(row);
+  });
 }

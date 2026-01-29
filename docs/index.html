@@ -4,9 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SS-DAS | Secure Sensor Data</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/style.css?v=3" />
 </head>
 <body>
+
   <header class="header">
     <h1>SS-DAS</h1>
     <div class="user-controls">
@@ -16,20 +17,24 @@
   </header>
 
   <main>
-    <!-- Login View -->
+
+    <!-- LOGIN VIEW -->
     <section id="login-view" class="card hidden">
       <h2>Login to SS-DAS</h2>
       <p class="subtitle">Secure Sensor Data Authentication System</p>
+
       <input id="username" placeholder="Username" />
       <input id="password" type="password" placeholder="Password" />
+
       <button id="login-btn">Login</button>
       <p id="login-error" class="error hidden"></p>
     </section>
 
-    <!-- Dashboard View -->
+    <!-- DASHBOARD VIEW -->
     <section id="dashboard-view" class="card hidden">
       <h2>Sensor Dashboard</h2>
       <p class="subtitle">Encrypted sensor data — decrypted only on your trusted device.</p>
+
       <table id="sensor-table">
         <thead>
           <tr>
@@ -43,26 +48,35 @@
         </thead>
         <tbody></tbody>
       </table>
+
       <p id="no-sensors" class="muted hidden">No sensor data available yet.</p>
     </section>
 
-    <!-- Sensor Detail View -->
+    <!-- SENSOR DETAIL VIEW -->
     <section id="sensor-detail-view" class="card hidden">
       <h2>Sensor Details</h2>
       <p class="subtitle">Raw encrypted payload as seen by the cloud.</p>
+
       <pre id="sensor-json" class="code-block"></pre>
+
       <button id="decrypt-btn">Decrypt on this device</button>
       <pre id="plaintext-output" class="code-block"></pre>
+
       <button id="back-btn">Back to dashboard</button>
     </section>
+
   </main>
 
-  <script src="api.js"></script>
-  <script src="crypto.js"></script>
-  <script src="webauthn.js"></script>
-  <script src="ui/login.js"></script>
-  <script src="ui/dashboard.js"></script>
-  <script src="ui/sensor_view.js"></script>
-  <script src="app.js"></script>
+  <!-- SCRIPT ORDER IS CRITICAL -->
+  <script src="api.js?v=3"></script>
+  <script src="crypto.js?v=3"></script>
+  <script src="webauthn.js?v=3"></script>
+
+  <script src="ui/login.js?v=3"></script>
+  <script src="ui/dashboard.js?v=3"></script>
+  <script src="ui/sensor_view.js?v=3"></script>
+
+  <script src="app.js?v=3"></script>
+
 </body>
 </html>
