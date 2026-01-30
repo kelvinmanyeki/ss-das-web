@@ -1,23 +1,21 @@
 const express = require("express");
 const cors = require("cors");
 
-const loginRoutes = require("./auth/login");
+const login = require("./auth/login");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/auth", loginRoutes);
-
-// Health check (very useful for Render)
+// ✅ Health check (VERY IMPORTANT for Render)
 app.get("/", (req, res) => {
   res.json({ status: "SS-DAS backend running" });
 });
 
-// Use Render's assigned port OR fallback to 3000 locally
+app.use("/auth", login);
+
+// ✅ Render provides PORT via env
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
