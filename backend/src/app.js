@@ -12,6 +12,9 @@ const sensorRegister = require("./sensors/register");
 
 const dataIngest = require("./data/ingest");
 
+const listSensors = require("./data/list_sensors");
+const sensorHistory = require("./data/sensor_history");
+
 const app = express();
 
 app.use(cors());
@@ -21,6 +24,8 @@ app.use("/auth", login);
 app.use("/devices", deviceRegister);
 app.use("/sensors", sensorRegister);
 app.use("/data", dataIngest);
+app.use("/data", listSensors);
+app.use("/data", sensorHistory);
 
 app.get("/", (req, res) => {
   res.json({ status: "SS-DAS backend running" });
