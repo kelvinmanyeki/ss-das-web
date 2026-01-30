@@ -8,6 +8,7 @@ const login = require("./auth/login");
 
 const deviceRegister = require("./devices/register");
 
+const sensorRegister = require("./sensors/register");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/auth", login);
 app.use("/devices", deviceRegister);
+app.use("/sensors", sensorRegister);
 
 app.get("/", (req, res) => {
   res.json({ status: "SS-DAS backend running" });

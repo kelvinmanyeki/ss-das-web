@@ -19,6 +19,18 @@ db.serialize(() => {
       public_key TEXT
     )
   `);
+    
+  // SENSORS TABLE
+  db.run(`
+    CREATE TABLE IF NOT EXISTS sensors (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     sensor_id TEXT UNIQUE,
+     device_id TEXT,
+     sensor_type TEXT,
+     FOREIGN KEY(device_id) REFERENCES devices(device_id)
+    )
+ `);
+
 
   console.log("✅ Database tables initialized");
 });
