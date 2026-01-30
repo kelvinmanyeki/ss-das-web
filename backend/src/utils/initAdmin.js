@@ -8,7 +8,7 @@ db.get("SELECT COUNT(*) AS count FROM users", [], (err, row) => {
   }
 
   if (row.count === 0) {
-    bcrypt.hash("admin123", 10, (err, hash) => {
+    bcrypt.hash("Security@2025", 10, (err, hash) => {
       if (err) return console.error(err);
 
       db.run(

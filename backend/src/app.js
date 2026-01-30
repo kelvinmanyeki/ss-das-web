@@ -6,6 +6,9 @@ require("./utils/initAdmin");
 
 const login = require("./auth/login");
 
+const deviceRegister = require("./devices/register");
+app.use("/devices", deviceRegister);
+
 const app = express();
 
 app.use(cors());
