@@ -30,6 +30,19 @@ db.serialize(() => {
      FOREIGN KEY(device_id) REFERENCES devices(device_id)
     )
  `);
+    
+  // SENSOR DATA TABLE
+  db.run(`
+    CREATE TABLE IF NOT EXISTS sensor_data (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     sensor_id TEXT,
+     device_id TEXT,
+     ciphertext TEXT,
+     nonce TEXT,
+     timestamp INTEGER
+    )
+ `);
+
 
 
   console.log("✅ Database tables initialized");
