@@ -7,7 +7,6 @@ require("./utils/initAdmin");
 const login = require("./auth/login");
 
 const deviceRegister = require("./devices/register");
-app.use("/devices", deviceRegister);
 
 const app = express();
 
@@ -24,3 +23,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
+
+app.use("/devices", deviceRegister);
