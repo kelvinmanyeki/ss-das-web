@@ -11,12 +11,13 @@ db.serialize(() => {
     )
   `);
 
-  // DEVICES TABLE (what you asked for)
+  // DEVICES TABLE (augmented for PUF simulation)
   db.run(`
     CREATE TABLE IF NOT EXISTS devices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       device_id TEXT UNIQUE,
-      public_key TEXT
+      public_key TEXT,
+      puf_secret TEXT
     )
   `);
     
@@ -39,11 +40,19 @@ db.serialize(() => {
      device_id TEXT,
      ciphertext TEXT,
      nonce TEXT,
-     timestamp INTEGER
+     timestamp INTEGER,
+     hmac TEXT,
+     signature TEXT
     )
  `);
 
+  // PUF CHALLENGES TABLE
+  db.run(`
+    CREATE TABLE IF NOT EXISTS puf_challenges (
+      device_id TEXT PRIMARY KEY,
+      challenge TEXT
+    )
+  `);
 
-
-  console.log("✅ Database tables initialized");
+  console.log("✅ Database tables initialized (Advanced Security)");
 });
