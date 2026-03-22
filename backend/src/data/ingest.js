@@ -11,6 +11,13 @@ router.post("/ingest", (req, res) => {
     return res.status(400).json({ error: "Missing required fields in payload" });
   }
 
+  function logThreat(devId, eventType, reason) {
+    db.run(
+      `INSERT INTO security_logs (device_id, event_type, reason, timestamp) VALUES (?, ?, ?, ?)`,
+      [devId || "UNKNOWN", eventType, reason, Date.now()]
+    );
+  }
+
   // 1. Verify PUF Response
   if (puf_response) {
     db.get(
@@ -21,6 +28,7 @@ router.post("/ingest", (req, res) => {
       [device_id],
       (err, row) => {
         if (err || !row || !row.challenge || !row.puf_secret) {
+          logThreat(device_id, "PUF_FAILURE", "Missing PUF Challenge or Unregistered Secret");
           return res.status(401).json({ error: "PUF challenge not found or missing secret" });
         }
 
@@ -31,6 +39,7 @@ router.post("/ingest", (req, res) => {
 
         if (expectedPuf !== puf_response) {
           console.warn(`[SECURITY] PUF Verification failed for ${device_id}`);
+          logThreat(device_id, "PUF_CLONE_DETECTED", "Crypto-Hologram mismatch. Possible hardware clone.");
           return res.status(401).json({ error: "Invalid PUF Response. Device clone detected!" });
         }
 
@@ -56,6 +65,7 @@ router.post("/ingest", (req, res) => {
           const isValid = verify.verify(row.public_key, Buffer.from(signature, 'base64'));
           if (!isValid) {
             console.warn(`[SECURITY] ECDSA Verification failed for ${device_id}`);
+            logThreat(device_id, "ECDSA_FORGERY", "Cryptographic signature rejected. Identity spoofing detected.");
             return res.status(401).json({ error: "Invalid ECDSA Signature" });
           }
         } catch (e) {

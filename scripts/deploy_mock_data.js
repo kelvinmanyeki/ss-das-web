@@ -51,6 +51,11 @@ async function run() {
         execSync("node -e \"Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000)\"");
     }
     
+    
+    console.log("\n3. Injecting a malicious hardware clone attack...");
+    const roguePath = path.join(__dirname, "..", "tests", "simulate_rogue.js");
+    execSync(`node "${roguePath}"`, { stdio: 'inherit', env: process.env });
+
     console.log("\n✅ All data successfully generated on Production Dashboard!");
 
   } catch (err) {

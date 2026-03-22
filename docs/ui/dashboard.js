@@ -25,4 +25,25 @@ async function loadDashboard() {
 
     tbody.appendChild(row);
   });
+
+  document.getElementById("threat-feed-view").classList.remove("hidden");
+  const threats = await apiGet("/data/threats");
+  const threatBody = document.querySelector("#threat-table tbody");
+  threatBody.innerHTML = "";
+
+  if (!threats || threats.length === 0) {
+    document.getElementById("no-threats").classList.remove("hidden");
+  } else {
+    document.getElementById("no-threats").classList.add("hidden");
+    threats.forEach(t => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="fira-code">${new Date(t.timestamp).toLocaleString()}</td>
+        <td><strong>${t.device_id}</strong></td>
+        <td><span class="badge-threat">${t.event_type}</span></td>
+        <td>${t.reason}</td>
+      `;
+      threatBody.appendChild(row);
+    });
+  }
 }

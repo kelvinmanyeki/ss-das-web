@@ -15,21 +15,14 @@ const dataIngest = require("./data/ingest");
 
 const listSensors = require("./data/list_sensors");
 const sensorHistory = require("./data/sensor_history");
+const threatLogs = require("./data/threats");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-// Apply rate limiting to all requests
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  message: { error: "Too many requests from this IP, please try again after 15 minutes" },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(limiter);
+// Temporary removal of rate-limit for the user demonstration to prevent Proxy Lockouts
+// app.use(limiter);
 app.use("/auth", login);
 app.use("/auth", challengePUF);
 app.use("/devices", deviceRegister);
@@ -37,6 +30,7 @@ app.use("/sensors", sensorRegister);
 app.use("/data", dataIngest);
 app.use("/data", listSensors);
 app.use("/data", sensorHistory);
+app.use("/data", threatLogs);
 
 // Serve the frontend dashboard directly from the Render URL
 const path = require("path");

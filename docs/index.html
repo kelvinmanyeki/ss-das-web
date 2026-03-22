@@ -111,6 +111,31 @@
       </div>
     </section>
 
+    <!-- THREAT LOGS VIEW -->
+    <section id="threat-feed-view" class="glitch-container hidden" style="margin-top: 2rem;">
+      <div class="glass-card threat-card">
+        <div class="card-header border-bottom danger-header">
+          <h2 class="gradient-text-red">Global Threat Intelligence Feed</h2>
+        </div>
+        <p class="subtitle danger-subtitle">Intercepting and logging cryptographic hardware spoofing attempts.</p>
+
+        <div class="table-responsive">
+          <table id="threat-table" class="cyber-table danger-table">
+            <thead>
+              <tr>
+                <th>TIMESTAMP</th>
+                <th>ROGUE DEVICE ID</th>
+                <th>THREAT VECTOR</th>
+                <th>DEFENSE ACTION</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="no-threats" class="muted">No security breaches detected recently.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- SENSOR DETAIL VIEW -->
     <section id="sensor-detail-view" class="glitch-container hidden">
       <div class="glass-card detail-card">

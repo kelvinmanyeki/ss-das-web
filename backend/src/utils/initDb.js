@@ -55,6 +55,17 @@ db.serialize(() => {
     )
   `);
 
+  // THREAT / INTEGRITY MONITORING TABLE
+  db.run(`
+    CREATE TABLE IF NOT EXISTS security_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      device_id TEXT,
+      event_type TEXT,
+      reason TEXT,
+      timestamp INTEGER
+    )
+  `);
+
   // Create initial admin if missing
   db.get("SELECT COUNT(*) AS count FROM users", [], (err, row) => {
     if (err) return console.error("Admin init error:", err);

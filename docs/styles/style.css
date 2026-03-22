@@ -410,3 +410,19 @@ button {
   color: var(--danger);
   margin-top: 1rem; font-family: var(--font-code); font-size: 0.9rem;
 }
+
+/* THREAT FEED STYLING */
+.gradient-text-red {
+  background: linear-gradient(90deg, #ff0055, #ff5f56);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+.threat-card {
+  border: 1px solid rgba(255, 0, 85, 0.3) !important;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.1);
+}
+.danger-table th { border-bottom: 1px solid rgba(255, 0, 85, 0.3) !important; color: #ff5f56 !important;}
+.danger-table td { color: #ff5f56 !important; font-family: var(--font-code); }
+.danger-table tr:hover td { background: rgba(255, 0, 85, 0.05) !important; }
+.badge-threat { background: rgba(255,0,85, 0.2); padding: 4px 8px; border-radius: 4px; border: 1px solid #ff0055; font-size: 0.8rem; font-weight: bold; }
