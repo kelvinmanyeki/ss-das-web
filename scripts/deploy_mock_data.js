@@ -30,6 +30,17 @@ async function run() {
     });
     console.log("Provision Response:", await res.json());
 
+    const res2 = await fetch(`${API_BASE}/sensors/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sensor_id: "DHT_SIM",
+        device_id: DEVICE_ID,
+        sensor_type: "DHT22 Simulated Temp & Hum"
+      })
+    });
+    console.log("Sensor Provision Response:", await res2.json());
+
     console.log("\n2. Injecting 3 encrypted payloads...");
     const path = require("path");
     const simulatorPath = path.join(__dirname, "..", "tests", "simulate_device.js");
