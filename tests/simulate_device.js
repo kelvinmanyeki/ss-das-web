@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://ss-das-web.onrender.com";
 
 // Device Secrets
 const DEVICE_ID = "SIM_01";

@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const db = require("../backend/src/utils/db");
 
 const DEVICE_ID = "SIM_01";
 const PUF_SECRET = "MY_PUF_SECRET_KEY";
