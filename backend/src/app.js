@@ -51,21 +51,24 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Backend running on port ${PORT}`);
     
-    // Auto-Seed ephemeral databases!
-    const db = require("./utils/db");
-    db.get('SELECT COUNT(*) as count FROM sensor_data', (err, row) => {
-      if (row && row.count === 0) {
-        console.log("Empty SQLite database detected (Ephemeral Boot). Seeding mock data...");
-        const { exec } = require('child_process');
-        const path = require('path');
-        const scriptPath = path.join(__dirname, "..", "..", "..", "scripts", "deploy_mock_data.js");
-        
-        exec(`node "${scriptPath}"`, { env: { ...process.env, SEEDING: "true" } }, (err, stdout, stderr) => {
-          if (err) console.error("Seeding failed:", stderr);
-          else console.log("Seeding complete!");
-        });
-      }
-    });
+    // Auto-Seed ephemeral databases after a short startup delay!
+    setTimeout(() => {
+      const db = require("./utils/db");
+      db.get('SELECT COUNT(*) as count FROM sensor_data', (err, row) => {
+        if (err) console.error("Seeder DB Check Error:", err);
+        if (row && row.count === 0) {
+          console.log("Empty SQLite database detected (Ephemeral Boot). Seeding mock data...");
+          const { exec } = require('child_process');
+          const path = require('path');
+          const scriptPath = path.join(__dirname, "..", "..", "..", "scripts", "deploy_mock_data.js");
+          
+          exec(`node "${scriptPath}"`, { env: { ...process.env, SEEDING: "true" } }, (err, stdout, stderr) => {
+            if (err) console.error("Seeding failed:", stderr);
+            else console.log("Seeding complete!\n", stdout);
+          });
+        }
+      });
+    }, 3000);
 
   });
 }
