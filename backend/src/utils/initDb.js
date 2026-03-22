@@ -1,4 +1,5 @@
 const db = require("./db");
+const bcrypt = require("bcrypt");
 
 db.serialize(() => {
   // USERS TABLE (needed for login)
@@ -53,6 +54,21 @@ db.serialize(() => {
       challenge TEXT
     )
   `);
+
+  // Create initial admin if missing
+  db.get("SELECT COUNT(*) AS count FROM users", [], (err, row) => {
+    if (err) return console.error("Admin init error:", err);
+    if (row && row.count === 0) {
+      bcrypt.hash("Security@2025", 10, (err, hash) => {
+        if (err) return console.error(err);
+        db.run(
+          "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
+          ["admin", hash, "admin"],
+          () => console.log("Admin user created")
+        );
+      });
+    }
+  });
 
   console.log("✅ Database tables initialized (Advanced Security)");
 });

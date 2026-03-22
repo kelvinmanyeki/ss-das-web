@@ -3,7 +3,6 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 
 require("./utils/initDb");
-require("./utils/initAdmin");
 
 const login = require("./auth/login");
 const challengePUF = require("./auth/challenge");
