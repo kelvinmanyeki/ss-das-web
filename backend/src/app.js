@@ -39,7 +39,11 @@ app.use("/data", dataIngest);
 app.use("/data", listSensors);
 app.use("/data", sensorHistory);
 
-app.get("/", (req, res) => {
+// Serve the frontend dashboard directly from the Render URL
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../../docs")));
+
+app.get("/status", (req, res) => {
   res.json({ status: "SS-DAS backend running" });
 });
 
