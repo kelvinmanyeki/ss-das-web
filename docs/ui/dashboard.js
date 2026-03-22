@@ -1,5 +1,4 @@
 async function loadDashboard() {
-  const sensors = await apiGet("/sensors");
   const data = await apiGet("/data/sensors");
 
   const tbody = document.querySelector("#sensor-table tbody");
