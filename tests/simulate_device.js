@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const API_BASE = "https://ss-das-web.onrender.com";
+const API_BASE = process.env.SEEDING === "true" ? `http://localhost:${process.env.PORT || 3000}` : "https://ss-das-web.onrender.com";
 
 // Device Secrets
 const DEVICE_ID = "SIM_01";

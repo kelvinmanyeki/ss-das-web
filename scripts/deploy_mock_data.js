@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const { execSync } = require("child_process");
 
-const API_BASE = "https://ss-das-web.onrender.com";
+const API_BASE = process.env.SEEDING === "true" ? `http://localhost:${process.env.PORT || 3000}` : "https://ss-das-web.onrender.com";
 const DEVICE_ID = "SIM_01";
 const PUF_SECRET = "MY_PUF_SECRET_KEY";
 
@@ -31,11 +31,13 @@ async function run() {
     console.log("Provision Response:", await res.json());
 
     console.log("\n2. Injecting 3 encrypted payloads...");
+    const path = require("path");
+    const simulatorPath = path.join(__dirname, "..", "tests", "simulate_device.js");
+    
     for(let i=1; i<=3; i++) {
         console.log(`\n--- Payload ${i} ---`);
-        execSync("node tests/simulate_device.js", { stdio: 'inherit' });
-        // small delay between points
-        execSync("node -e \"Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2000)\"");
+        execSync(`node "${simulatorPath}"`, { stdio: 'inherit', env: process.env });
+        execSync("node -e \"Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000)\"");
     }
     
     console.log("\n✅ All data successfully generated on Production Dashboard!");
