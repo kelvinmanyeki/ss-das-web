@@ -14,7 +14,11 @@ async function viewSensor(id) {
   });
 
   const data = await apiGet(`/data/sensor/${id}`);
-  window.currentReading = data.readings[0];
+  if (!data || data.length === 0) {
+    alert("No sensor history found for this device.");
+    return;
+  }
+  window.currentReading = data[0];
 
   document.getElementById("sensor-json").textContent =
     JSON.stringify(window.currentReading, null, 2);
