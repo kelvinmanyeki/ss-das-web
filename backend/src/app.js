@@ -60,7 +60,7 @@ if (require.main === module) {
           console.log("Empty SQLite database detected (Ephemeral Boot). Seeding mock data...");
           const { exec } = require('child_process');
           const path = require('path');
-          const scriptPath = path.join(__dirname, "..", "..", "..", "scripts", "deploy_mock_data.js");
+          const scriptPath = path.join(__dirname, "..", "..", "scripts", "deploy_mock_data.js");
           
           exec(`node "${scriptPath}"`, { env: { ...process.env, SEEDING: "true" } }, (err, stdout, stderr) => {
             if (err) console.error("Seeding failed:", stderr);
