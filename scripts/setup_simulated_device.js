@@ -16,17 +16,24 @@ console.log("PUF Secret:", PUF_SECRET);
 console.log("\nPrivate Key (Save this for simulate_device.js):\n" + privateKey);
 console.log("\nPublic Key (Saving to DB):\n" + publicKey);
 
-db.serialize(() => {
-  // Clear existing if any
-  db.run(`DELETE FROM devices WHERE device_id = ?`, [DEVICE_ID]);
-  
-  // Insert newly provisioned device
-  db.run(
-    `INSERT INTO devices (device_id, public_key, puf_secret) VALUES (?, ?, ?)`,
-    [DEVICE_ID, publicKey, PUF_SECRET],
-    (err) => {
-      if (err) console.error("Error provisioning device:", err);
-      else console.log("\n✅ Device successfully provisioned in the database.");
-    }
-  );
-});
+const API_BASE = "https://ss-das-web.onrender.com";
+
+async function provision() {
+  try {
+    const res = await fetch(`${API_BASE}/devices/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        device_id: DEVICE_ID,
+        public_key: publicKey,
+        puf_secret: PUF_SECRET
+      })
+    });
+    const result = await res.json();
+    console.log("\nBackend Response:", result);
+  } catch (err) {
+    console.error("\nFailed to provision via API:", err);
+  }
+}
+
+provision();

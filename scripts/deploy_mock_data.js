@@ -1,0 +1,48 @@
+const crypto = require("crypto");
+const { execSync } = require("child_process");
+
+const API_BASE = "https://ss-das-web.onrender.com";
+const DEVICE_ID = "SIM_01";
+const PUF_SECRET = "MY_PUF_SECRET_KEY";
+
+const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg2UrxXvQvKPa5FzVR
+uHQU+sUC1wg1OVC7yLT3PWRUdG2hRANCAASgWYH3P7tS3A0fyAXrNJklaAQa9ADW
+YlcLsnUzMSvE4OYvYE6EXHWK0onPQSWc2tODcK4Ub+d2pVUESbq/i2/c
+-----END PRIVATE KEY-----`;
+
+// Deduce the exact public key that matches the simulator's hardcoded private key
+const privateKeyObj = crypto.createPrivateKey({ key: PRIVATE_KEY, format: 'pem' });
+const publicKeyObj = crypto.createPublicKey(privateKeyObj);
+const publicKey = publicKeyObj.export({ type: 'spki', format: 'pem' });
+
+async function run() {
+  console.log("1. Provisioning SIM_01 on live server...");
+  try {
+    const res = await fetch(`${API_BASE}/devices/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        device_id: DEVICE_ID,
+        public_key: publicKey,
+        puf_secret: PUF_SECRET
+      })
+    });
+    console.log("Provision Response:", await res.json());
+
+    console.log("\n2. Injecting 3 encrypted payloads...");
+    for(let i=1; i<=3; i++) {
+        console.log(`\n--- Payload ${i} ---`);
+        execSync("node tests/simulate_device.js", { stdio: 'inherit' });
+        // small delay between points
+        execSync("node -e \"Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2000)\"");
+    }
+    
+    console.log("\n✅ All data successfully generated on Production Dashboard!");
+
+  } catch (err) {
+    console.error("Critical error:", err);
+  }
+}
+
+run();
