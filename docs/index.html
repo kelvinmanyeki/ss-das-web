@@ -3,86 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SS-DAS | Secure Sensor Data</title>
-  <link rel="stylesheet" href="styles/style.css?v=3" />
+  <title>SS-DAS | Zero-Trust IoT Security</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css?v=4" />
 </head>
 <body>
 
-  <header class="header">
-    <h1>SS-DAS</h1>
+  <!-- Background decorative elements -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <header class="glass-header">
+    <div class="logo">
+      <div class="logo-shield"></div>
+      <h1>SS-DAS <span class="badge-pro">PRO</span></h1>
+    </div>
+    <div class="header-status">
+      <span class="pulse-dot"></span> System Online
+    </div>
     <div class="user-controls">
       <span id="user-label" class="hidden"></span>
-      <button id="logout-btn" class="hidden">Logout</button>
+      <button id="logout-btn" class="glass-btn hidden">Disconnect</button>
     </div>
   </header>
 
-  <main>
+  <main class="container">
 
     <!-- LOGIN VIEW -->
-    <section id="login-view" class="card hidden">
-      <h2>Login to SS-DAS</h2>
-      <p class="subtitle">Secure Sensor Data Authentication System</p>
+    <section id="login-view" class="glitch-container hidden">
+      <div class="glass-card login-card">
+        <h2 class="gradient-text">Zero-Trust Access</h2>
+        <p class="subtitle">Authenticate to access end-to-end encrypted telemetry.</p>
+        
+        <div class="input-group">
+          <input id="username" placeholder="Admin ID" autocomplete="off" />
+        </div>
+        <div class="input-group">
+          <input id="password" type="password" placeholder="Passphrase" autocomplete="off" />
+        </div>
 
-      <input id="username" placeholder="Username" />
-      <input id="password" type="password" placeholder="Password" />
-
-      <button id="login-btn">Login</button>
-      <p id="login-error" class="error hidden"></p>
+        <button id="login-btn" class="glow-btn">INITIALIZE HANDSHAKE</button>
+        <p id="login-error" class="error hidden"></p>
+      </div>
     </section>
 
     <!-- DASHBOARD VIEW -->
-    <section id="dashboard-view" class="card hidden">
-      <h2>Sensor Dashboard</h2>
-      <p class="subtitle">Encrypted sensor data — decrypted only on your trusted device.</p>
+    <section id="dashboard-view" class="dashboard-grid hidden">
+      
+      <div class="glass-card main-panel">
+        <div class="card-header">
+          <h2 class="gradient-text">Encrypted Sensor Fleet</h2>
+          <button id="refresh-btn" class="icon-btn">↻ Sync</button>
+        </div>
+        <p class="subtitle">Data remains mathematically locked until decrypted locally.</p>
 
-      <table id="sensor-table">
-        <thead>
-          <tr>
-            <th>Sensor ID</th>
-            <th>Type</th>
-            <th>Device</th>
-            <th>Ciphertext</th>
-            <th>Timestamp</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+        <div class="table-responsive">
+          <table id="sensor-table" class="cyber-table">
+            <thead>
+              <tr>
+                <th>NODE ID</th>
+                <th>SENSOR TYPE</th>
+                <th>CIPHERTEXT (AES-GCM)</th>
+                <th>TIMESTAMP</th>
+                <th>ACCESS</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="no-sensors" class="muted hidden">No secure transmissions intercepted yet.</p>
+        </div>
+      </div>
 
-      <p id="no-sensors" class="muted hidden">No sensor data available yet.</p>
+      <!-- Hardware Demonstrator Widget -->
+      <div class="glass-card demo-panel">
+        <h3>Live ESP32 Pipeline Demonstrator</h3>
+        <p class="micro-text">Visualizing edge-node security protocols</p>
+        <div class="pipeline-flow">
+          <div class="pipe-step" id="step-puf">
+            <span class="step-icon">1</span>
+            <div class="step-details">
+              <h4>PUF Challenge-Response</h4>
+              <p>Authenticating hardware identity</p>
+            </div>
+          </div>
+          <div class="pipe-step" id="step-aes">
+            <span class="step-icon">2</span>
+            <div class="step-details">
+              <h4>AES-256-GCM Encryption</h4>
+              <p>Locking thermal payload</p>
+            </div>
+          </div>
+          <div class="pipe-step" id="step-hmac">
+            <span class="step-icon">3</span>
+            <div class="step-details">
+              <h4>HMAC-SHA256 Integrity</h4>
+              <p>Generating anti-tamper hash</p>
+            </div>
+          </div>
+          <div class="pipe-step" id="step-ecdsa">
+            <span class="step-icon">4</span>
+            <div class="step-details">
+              <h4>ECDSA Non-Repudiation</h4>
+              <p>Signing network packet</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SENSOR DETAIL VIEW -->
-    <section id="sensor-detail-view" class="card hidden">
-      <h2>Sensor Details</h2>
-      <p class="subtitle">Raw encrypted payload as seen by the cloud.</p>
+    <section id="sensor-detail-view" class="glitch-container hidden">
+      <div class="glass-card detail-card">
+        <div class="card-header border-bottom">
+          <h2 class="gradient-text">Cryptographic Analysis</h2>
+          <button id="back-btn" class="icon-btn">← Return to Fleet</button>
+        </div>
 
-      <pre id="sensor-json" class="code-block"></pre>
+        <div class="security-matrix">
+          <div class="matrix-box badge-puf" id="badge-puf">
+            <h5>AUTH: PUF</h5>
+            <div class="badge-status">Pending</div>
+          </div>
+          <div class="matrix-box badge-hmac" id="badge-hmac">
+            <h5>INTEGRITY: HMAC</h5>
+            <div class="badge-status">Pending</div>
+          </div>
+          <div class="matrix-box badge-ecdsa" id="badge-ecdsa">
+            <h5>SIGNATURE: ECDSA</h5>
+            <div class="badge-status">Pending</div>
+          </div>
+        </div>
 
-      <div class="security-badges" style="margin-top: 10px; margin-bottom: 20px;">
-        <span id="badge-puf" class="badge">PUF Status: Unknown</span>
-        <span id="badge-ecdsa" class="badge">ECDSA: Unknown</span>
-        <span id="badge-hmac" class="badge">HMAC: Unknown</span>
+        <div class="code-terminal">
+          <div class="terminal-header">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="terminal-title">ENCRYPTED PAYLOAD (AS STORED IN CLOUD)</span>
+          </div>
+          <pre id="sensor-json" class="fira-code"></pre>
+        </div>
+
+        <div class="decrypt-action">
+          <button id="decrypt-btn" class="glow-btn huge">DECRYPT PAYLOAD</button>
+        </div>
+
+        <div class="code-terminal success hidden" id="plaintext-container">
+          <div class="terminal-header">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="terminal-title">DECRYPTED PLAINTEXT (LOCAL ONLY)</span>
+          </div>
+          <pre id="plaintext-output" class="fira-code animating"></pre>
+        </div>
       </div>
-
-      <button id="decrypt-btn">Decrypt on this device</button>
-      <pre id="plaintext-output" class="code-block"></pre>
-
-      <button id="back-btn">Back to dashboard</button>
     </section>
 
   </main>
 
-  <!-- SCRIPT ORDER IS CRITICAL -->
-  <script src="api.js?v=3"></script>
-  <script src="crypto.js?v=3"></script>
-  <script src="webauthn.js?v=3"></script>
+  <script src="api.js?v=4"></script>
+  <script src="crypto.js?v=4"></script>
+  <script src="webauthn.js?v=4"></script>
 
-  <script src="ui/login.js?v=3"></script>
-  <script src="ui/dashboard.js?v=3"></script>
-  <script src="ui/sensor_view.js?v=3"></script>
-
-  <script src="app.js?v=3"></script>
+  <script src="ui/login.js?v=4"></script>
+  <script src="ui/dashboard.js?v=4"></script>
+  <script src="ui/sensor_view.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 
 </body>
 </html>

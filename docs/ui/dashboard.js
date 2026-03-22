@@ -16,12 +16,11 @@ async function loadDashboard() {
     const row = document.createElement("tr");
 
     row.innerHTML = `
+      <td><strong>${r.device_id}</strong></td>
       <td>${r.sensor_id}</td>
-      <td>${r.sensor_type}</td>
-      <td>${r.device_id}</td>
-      <td>${r.ciphertext.substring(0, 12)}...</td>
-      <td>${new Date(r.timestamp * 1000).toLocaleString()}</td>
-      <td><button onclick="viewSensor('${r.sensor_id}')">View</button></td>
+      <td class="fira-code muted">${r.ciphertext.substring(0, 16)}...</td>
+      <td>${new Date(r.timestamp).toLocaleString()}</td>
+      <td><button class="action-btn" onclick="viewSensor('${r.sensor_id}')">Analyze Payload</button></td>
     `;
 
     tbody.appendChild(row);
