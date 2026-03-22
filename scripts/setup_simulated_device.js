@@ -29,8 +29,19 @@ async function provision() {
         puf_secret: PUF_SECRET
       })
     });
-    const result = await res.json();
-    console.log("\nBackend Response:", result);
+    console.log("Device Response:", await res.json());
+
+    // Register Sensor
+    const res2 = await fetch(`${API_BASE}/sensors/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sensor_id: "DHT_SIM",
+        device_id: DEVICE_ID,
+        sensor_type: "DHT22 Simulated Temp & Hum"
+      })
+    });
+    console.log("Sensor Response:", await res2.json());
   } catch (err) {
     console.error("\nFailed to provision via API:", err);
   }
