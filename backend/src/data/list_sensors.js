@@ -10,7 +10,7 @@ router.get("/sensors", (req, res) => {
     FROM sensor_data sd
     JOIN sensors s ON sd.sensor_id = s.sensor_id
     ORDER BY sd.timestamp DESC
-    LIMIT 100
+    LIMIT 3600
   `;
 
   db.all(query, [], (err, rows) => {
