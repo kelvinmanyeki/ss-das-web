@@ -1,5 +1,29 @@
 {
   "dependencies": {
+    "axios": "^1.13.6",
     "md-to-pdf": "^5.2.5"
-  }
+  },
+  "name": "ss-das",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelvinmanyeki/ss-das-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kelvinmanyeki/ss-das-web/issues"
+  },
+  "homepage": "https://github.com/kelvinmanyeki/ss-das-web#readme"
 }

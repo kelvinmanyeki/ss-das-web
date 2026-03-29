@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/threats", (req, res) => {
   db.all(
-    `SELECT device_id, event_type, reason, timestamp FROM security_logs ORDER BY timestamp DESC LIMIT 50`,
+    `SELECT device_id, event_type, reason, timestamp FROM security_logs ORDER BY timestamp DESC LIMIT 500`,
     [],
     (err, rows) => {
       if (err) return res.status(500).json({ error: "Failed to fetch security logs" });
