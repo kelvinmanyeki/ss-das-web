@@ -256,7 +256,11 @@ button {
 }
 
 /* Cyber Table */
-.table-responsive { overflow-x: auto; }
+.table-responsive { 
+  overflow-x: auto; 
+  overflow-y: auto;
+  max-height: 320px;
+}
 .cyber-table {
   width: 100%;
   border-collapse: collapse;
@@ -270,6 +274,10 @@ button {
   font-size: 0.8rem;
   letter-spacing: 1px;
   border-bottom: 1px solid var(--border-neon);
+  position: sticky;
+  top: 0;
+  background: var(--bg-deep); /* Prevent transparent overlap */
+  z-index: 10;
 }
 .cyber-table td {
   padding: 1.2rem 1rem;

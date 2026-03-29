@@ -2,7 +2,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const BASE_URL = process.env.API_BASE || 'https://ss-das-web.onrender.com';
-const DEVICE_ID = 'SIM_ATTACK_02';
+const DEVICE_ID = 'SIM_NODE_02';
 const SENSOR_ID = 'TEMP_02';
 const PUF_SECRET = 'SUPER_SECRET_PUF_KEY_123';
 const DATA_PASSWORD = 'my_secure_password'; // as used in crypto.js comment or user's mind
