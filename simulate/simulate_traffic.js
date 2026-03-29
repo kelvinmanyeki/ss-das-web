@@ -119,26 +119,29 @@ async function sendPayload(attackType = null) {
   
   let { ciphertextB64, nonceB64 } = encryptData(payloadStr);
 
-  if (attackType === 'AES') {
-    ciphertextB64 = crypto.randomBytes(32).toString('base64'); // completely corrupted
-    console.log(`[ATTACK] [EXPOSED KEY] Sending corrupted AES ciphertext (simulating exposed/wrong key)`);
-  }
-
   // 3. Generate HMAC
-  let hmacHex = generateHMAC(ciphertextB64);
-  if (attackType === 'HMAC') {
-    hmacHex = generateHMAC("tampered_data");
-    console.log(`[ATTACK] [CHANGED HASH] Sending invalid HMAC (simulating altered payload)`);
-  }
+  let originalHmac = generateHMAC(ciphertextB64);
 
   // 4. Generate Signature
-  // dataToSign = `${device_id}|${sensor_id}|${ciphertext}|${nonce}|${timestamp}`
   const dataToSign = `${DEVICE_ID}|${SENSOR_ID}|${ciphertextB64}|${nonceB64}|${timestamp}`;
   let signatureB64 = signData(dataToSign);
-  
+
+  let finalCipher = ciphertextB64;
+  let finalHmac = originalHmac;
+
+  if (attackType === 'AES') {
+    finalCipher = crypto.randomBytes(32).toString('base64'); // completely corrupted
+    console.log(`[ATTACK] [EXPOSED KEY] MitM altering AES ciphertext in transit`);
+  }
+
+  if (attackType === 'HMAC') {
+    finalHmac = generateHMAC("tampered_data");
+    console.log(`[ATTACK] [CHANGED HASH] MitM altering HMAC in transit`);
+  }
+
   if (attackType === 'ECDSA') {
     signatureB64 = signData("wrong_data_string");
-    console.log(`[ATTACK] Sending invalid ECDSA signature`);
+    console.log(`[ATTACK] MitM forging invalid ECDSA signature`);
   }
 
   // 5. Send POST
@@ -146,11 +149,11 @@ async function sendPayload(attackType = null) {
     const payload = {
       device_id: DEVICE_ID,
       sensor_id: SENSOR_ID,
-      ciphertext: ciphertextB64,
+      ciphertext: finalCipher,
       nonce: nonceB64,
       timestamp: timestamp,
       puf_response: pufResponse,
-      hmac: hmacHex,
+      hmac: finalHmac,
       signature: signatureB64
     };
     

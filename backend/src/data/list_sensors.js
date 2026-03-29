@@ -7,14 +7,10 @@ router.get("/sensors", (req, res) => {
   const query = `
     SELECT s.sensor_id, s.device_id, s.sensor_type,
       sd.ciphertext, sd.timestamp
-    FROM sensors s
-    LEFT JOIN (
-      SELECT sensor_id, ciphertext, timestamp
-      FROM sensor_data
-      GROUP BY sensor_id
-      HAVING MAX(timestamp)
-    ) sd
-    ON s.sensor_id = sd.sensor_id
+    FROM sensor_data sd
+    JOIN sensors s ON sd.sensor_id = s.sensor_id
+    ORDER BY sd.timestamp DESC
+    LIMIT 100
   `;
 
   db.all(query, [], (err, rows) => {

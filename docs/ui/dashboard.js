@@ -45,4 +45,9 @@ async function loadDashboard() {
       threatBody.appendChild(row);
     });
   }
+
+  if (window.dashboardTimer) clearTimeout(window.dashboardTimer);
+  if (!document.getElementById("dashboard-view").classList.contains("hidden")) {
+    window.dashboardTimer = setTimeout(loadDashboard, 2000);
+  }
 }
